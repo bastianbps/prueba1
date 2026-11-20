@@ -45,6 +45,10 @@ function showPage(pageKey) {
   document.getElementById("logo-sub").textContent = pageConfig[pageKey].sub;
   document.title = pageConfig[pageKey].title;
 
+  // El botón flotante de WhatsApp usa el número de cada área
+  var fab = document.querySelector(".fab");
+  if (fab) fab.href = "https://wa.me/" + (pageKey === "electricidad" ? PHONE_ELEC : PHONE_DEFAULT) + "?text=Hola%2C%20quiero%20cotizar.";
+
   var alts = pageConfig[pageKey].alternatives;
 
   // Actualizar enlaces superiores (escritorio) con las 2 áreas disponibles para cambiar
@@ -121,7 +125,10 @@ document.querySelectorAll(".local-scroll").forEach(function(link) {
   });
 });
 
-function setupWhatsApp(btnId, prefix, areaLabel) {
+var PHONE_DEFAULT = "56963225763";
+var PHONE_ELEC = "56938843355";
+
+function setupWhatsApp(btnId, prefix, areaLabel, phone) {
   var btn = document.getElementById(btnId);
   if (!btn) return;
   btn.addEventListener("click", function() {
@@ -139,13 +146,13 @@ function setupWhatsApp(btnId, prefix, areaLabel) {
     if (nm) nm.removeAttribute("aria-invalid");
     var header = areaLabel ? "Hola, quiero cotizar (" + areaLabel + ").\n" : "Hola, quiero cotizar.\n";
     var msg = header + "Servicio: " + v(prefix + "s") + "\nNombre: " + v(prefix + "n") + "\nDetalle: " + v(prefix + "m");
-    window.open("https://wa.me/56963225763?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    window.open("https://wa.me/" + (phone || PHONE_DEFAULT) + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
   });
 }
 
 setupWhatsApp("send", "", "");
 setupWhatsApp("send-const", "c", "Construcción");
-setupWhatsApp("send-elec", "e", "Electricidad");
+setupWhatsApp("send-elec", "e", "Electricidad", PHONE_ELEC);
 
 function pageFromHash() {
   var k = location.hash.replace("#", "");
