@@ -168,3 +168,22 @@ window.addEventListener("hashchange", function() {
   var p = pageFromHash();
   if (p && p !== "gas") showPage(p);
 })();
+
+/* Visor de fotos: al tocar una foto de "Trabajos" se abre ampliada */
+(function() {
+  var box = document.getElementById("lightbox");
+  if (!box || typeof box.showModal !== "function") return;
+  var big = box.querySelector("img"), cap = box.querySelector("p");
+  document.querySelectorAll(".work img").forEach(function(img) {
+    img.addEventListener("click", function() {
+      big.src = img.currentSrc || img.src;
+      big.alt = img.alt;
+      var fc = img.parentNode.querySelector("figcaption");
+      cap.textContent = fc ? fc.textContent : "";
+      box.showModal();
+    });
+  });
+  box.addEventListener("click", function(e) {
+    if (e.target !== big) box.close();
+  });
+})();

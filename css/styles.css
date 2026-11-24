@@ -163,3 +163,48 @@ input[aria-invalid="true"]{border-color:#d9534f;box-shadow:0 0 0 2px rgba(217,83
 .check-list li{position:relative;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:.7rem;padding:.9rem 1rem .9rem 3rem;font-weight:600;line-height:1.35}
 .check-list li::before{content:"";position:absolute;left:1rem;top:50%;width:1.5rem;height:1.5rem;transform:translateY(-50%);border-radius:50%;background:var(--btn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/70% no-repeat}
 @media (max-width:820px){.check-list{grid-template-columns:1fr}}
+
+/* Trabajos, proceso y confianza: columnas fijas que reparten bien (8 → 4+4, 6 → 3+3, 4 → 4 / 2+2) y filas incompletas centradas */
+.works{--cols:3;--gap:1.2rem;display:flex;flex-wrap:wrap;justify-content:center;gap:var(--gap)}
+.works:has(>.work:nth-child(8)){--cols:4}
+.works>.work{flex:0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));min-width:0}
+.work figcaption{min-height:4.8rem}
+.steps,.trust ul{grid-template-columns:repeat(4,1fr)}
+@media (max-width:900px){
+  .works,.works:has(>.work:nth-child(8)){--cols:2}
+  .steps,.trust ul{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:480px){
+  .works,.works:has(>.work:nth-child(8)){--cols:1}
+  .steps,.trust ul{grid-template-columns:1fr}
+}
+/* Marcadores de foto con la misma altura que las fotos reales */
+.work{container-type:inline-size}
+.work .ph{aspect-ratio:auto;height:calc(75cqw - 1.4rem);box-sizing:border-box}
+
+
+/* ===== Arreglo móvil + botón de contacto según dispositivo ===== */
+html,body{max-width:100%;overflow-x:clip}
+img,svg,video{max-width:100%}
+
+/* Celular/tablet (toque): "Llamar ahora". Computador (mouse): "Enviar correo" */
+.top .btn-mail{display:none}
+@media (hover:hover) and (pointer:fine){
+  .top .btn-call{display:none}
+  .top .btn-mail{display:inline-block}
+}
+.top .btn{white-space:nowrap}
+
+@media (max-width:920px){
+  /* Encabezado en dos filas: logo + botón arriba, áreas abajo */
+  .bar{flex-wrap:wrap;height:auto;padding-top:.6rem;padding-bottom:.6rem;row-gap:.55rem}
+  .logo{order:1}
+  nav{order:2;margin-left:auto}
+  .mob-areas{order:3;flex:1 0 100%;display:flex;gap:.4rem}
+  .mob-areas button{flex:1 1 0;min-width:0;padding:.5rem .3rem;font-size:.8rem;white-space:nowrap}
+  .top .btn{padding:.55rem .9rem;font-size:.88rem}
+}
+@media (max-width:360px){
+  .mob-areas button{font-size:.72rem}
+}
+@media (max-width:920px){[data-block]{scroll-margin-top:7.5rem}}
