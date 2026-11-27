@@ -42,7 +42,6 @@ function showPage(pageKey) {
     sec.classList.toggle("active", sec.id === "page-" + pageKey);
   });
 
-  document.getElementById("logo-sub").textContent = pageConfig[pageKey].sub;
   document.title = pageConfig[pageKey].title;
 
   // El botón flotante de WhatsApp usa el número de cada área
